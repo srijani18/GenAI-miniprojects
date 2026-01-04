@@ -1,0 +1,22 @@
+import os
+from openai import OpenAI
+
+os.environ["HF_TOKEN"]="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+client = OpenAI(
+    base_url="https://router.huggingface.co/v1",
+    api_key=os.environ["HF_TOKEN"],
+)
+print("Q&A begins! Enter 'exit' to quit")
+while True:
+  str=input("Enter your question:")
+  if(str.lower()=='exit'):
+    break
+  
+  response=client.chat.completions.create(
+      model="moonshotai/Kimi-K2-Instruct-0905",
+      messages=[{"role":"user", "content":str}],
+      temperature=0.7
+  )
+  
+  assistant_response=response.choices[0].message.content
+  print(assistant_response)
